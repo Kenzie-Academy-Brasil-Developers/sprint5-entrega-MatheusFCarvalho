@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
 import "dotenv/config";
+import { User } from "./entities/user.entity";
 
 /* Explicando código abaixo:
   * Estamos utilizando um ternário para controlar a configuração
@@ -12,8 +13,7 @@ import "dotenv/config";
     das configurações pré definidas abaixo para que os testes executem
     de forma correta.
 */
-
-export const AppDataSource =
+const AppDataSource =
   process.env.NODE_ENV === "test"
     ? new DataSource({
         type: "sqlite",
@@ -33,3 +33,15 @@ export const AppDataSource =
         entities: ["src/entities/*.ts"],
         migrations: ["src/migrations/*.ts"],
       });
+
+if (process.env.NODE_ENV !== "test"){
+  AppDataSource.initialize()
+  .then(() => {
+    console.log("Data Source initialized")
+  })
+  .catch((err) => {
+    console.error("Error during Data Source initialization", err)
+  })
+}
+
+export default AppDataSource

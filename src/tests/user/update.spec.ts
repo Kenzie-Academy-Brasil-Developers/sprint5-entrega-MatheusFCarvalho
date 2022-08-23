@@ -1,4 +1,4 @@
-import { AppDataSource } from "../../data-source";
+import AppDataSource from "../../data-source";
 import { DataSource } from "typeorm";
 import app from "../../app";
 import request from "supertest";
@@ -66,7 +66,7 @@ describe("Teste para metodo PATCH em /users/:id", () => {
   });
 
   test("Tentando atualizar um usuário que não existe", async () => {
-    const response = await request(app).get(`/users/1`);
+    const response = await request(app).patch(`/users/1`);
 
     expect(response.status).toEqual(404);
     expect(response.body).toHaveProperty("message");
